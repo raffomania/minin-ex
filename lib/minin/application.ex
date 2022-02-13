@@ -15,9 +15,10 @@ defmodule Minin.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Minin.PubSub},
       # Start the Endpoint (http/https)
-      MininWeb.Endpoint
+      MininWeb.Endpoint,
       # Start a worker by calling: Minin.Worker.start_link(arg)
       # {Minin.Worker, arg}
+      {Minin.MatchRegistry, name: Minin.MatchRegistry}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

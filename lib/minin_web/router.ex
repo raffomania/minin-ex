@@ -14,6 +14,7 @@ defmodule MininWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    live "/matches/:id", Live.Match
   end
 
   # Enables LiveDashboard only for development
