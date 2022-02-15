@@ -1,4 +1,8 @@
 defmodule MininWeb.Telemetry do
+  @moduledoc """
+  no idea what this does yet!
+  """
+
   use Supervisor
   import Telemetry.Metrics
 
@@ -6,7 +10,7 @@ defmodule MininWeb.Telemetry do
     Supervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
-  @impl true
+  @impl Supervisor
   def init(_arg) do
     children = [
       # Telemetry poller will execute the given period measurements

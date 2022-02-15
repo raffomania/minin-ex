@@ -1,4 +1,8 @@
 defmodule Minin.MatchRegistry do
+  @moduledoc """
+  A registry for matches, allowing lookup by ID.
+  """
+
   use GenServer
 
   def lookup(server, id) do
@@ -13,20 +17,29 @@ defmodule Minin.MatchRegistry do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
 
-  @impl true
+  @impl GenServer
   def init(:ok) do
-    {:ok, %{}}
+    {:ok, {%{}, %{}}}
   end
 
-  @impl true
-  def handle_call({:lookup, id}, _from, matches) do
-    {:reply, Map.fetch!(matches, id), matches}
+  @impl GenServer
+  def handle_call({:lookup, id}, _from, {matches, refs}) do
+    {:reply, Map.fetch(matches, id), {matches, refs}}
   end
 
-  @impl true
-  def handle_call({:create}, _from, matches) do
+  @impl GenServer
+  def handle_call({:create}, _from, {matches, refs}) do
     id = Ecto.UUID.generate()
-    {:ok, match} = Minin.Match.start_link(id, [])
-    {:reply, match, Map.put(matches, id, match)}
+    {:ok, pid} = DynamicSupervisor.start_child(Minin.MatchSupervisor, {Minin.Match, [id: id]})
+    ref = Process.monitor(pid)
+    refs = Map.put(refs, ref, id)
+    {:reply, {id, pid}, {Map.put(matches, id, pid), refs}}
+  end
+
+  @impl GenServer
+  def handle_info({:DOWN, ref, :process, _pid, _reason}, {matches, refs}) do
+    id = Map.get(refs, ref)
+    matches = Map.delete(matches, id)
+    {:noreply, {matches, refs}}
   end
 end

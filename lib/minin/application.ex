@@ -5,7 +5,7 @@ defmodule Minin.Application do
 
   use Application
 
-  @impl true
+  @impl Application
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
@@ -16,9 +16,8 @@ defmodule Minin.Application do
       {Phoenix.PubSub, name: Minin.PubSub},
       # Start the Endpoint (http/https)
       MininWeb.Endpoint,
-      # Start a worker by calling: Minin.Worker.start_link(arg)
-      # {Minin.Worker, arg}
-      {Minin.MatchRegistry, name: Minin.MatchRegistry}
+      {Minin.MatchRegistry, name: Minin.MatchRegistry},
+      {DynamicSupervisor, name: Minin.MatchSupervisor, strategy: :one_for_one}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -29,7 +28,7 @@ defmodule Minin.Application do
 
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
-  @impl true
+  @impl Application
   def config_change(changed, _new, removed) do
     MininWeb.Endpoint.config_change(changed, removed)
     :ok

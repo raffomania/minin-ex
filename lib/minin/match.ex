@@ -1,8 +1,15 @@
 defmodule Minin.Match do
-  use Agent
+  @moduledoc """
+  A single match.
+  """
 
-  def start_link(id, opts) do
-    IO.puts("started match!")
-    Agent.start_link(fn -> %{id: id} end, opts)
+  use Agent, restart: :temporary
+
+  def start_link(opts) do
+    Agent.start_link(fn -> %{id: opts[:id]} end, opts)
+  end
+
+  def id(match) do
+    Agent.get(match, &Map.get(&1, :id))
   end
 end

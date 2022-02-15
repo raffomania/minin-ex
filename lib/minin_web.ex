@@ -67,16 +67,6 @@ defmodule MininWeb do
     end
   end
 
-  def router do
-    quote do
-      use Phoenix.Router
-
-      import Plug.Conn
-      import Phoenix.Controller
-      import Phoenix.LiveView.Router
-    end
-  end
-
   def channel do
     quote do
       use Phoenix.Channel

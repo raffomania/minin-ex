@@ -9,10 +9,15 @@ defmodule MininWeb.ErrorHelpers do
   Generates tag for inlined form input errors.
   """
   def error_tag(form, field) do
-    Enum.map(Keyword.get_values(form.errors, field), fn error ->
-      content_tag(:span, translate_error(error),
+    errors = Keyword.get_values(form.errors, field)
+
+    Enum.map(errors, fn error ->
+      translated_error = translate_error(error)
+      input_name = input_name(form, field)
+
+      content_tag(:span, translated_error,
         class: "invalid-feedback",
-        phx_feedback_for: input_name(form, field)
+        phx_feedback_for: input_name
       )
     end)
   end
