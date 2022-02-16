@@ -1,1 +1,13 @@
 <p>Welcome to match <%= @id %>!</p>
+
+<div class="stage">
+<%= for player <- @players do %>
+    <p>Player's selected pieces:</p>
+    <ul>
+    <%= for piece <- player.selected_pieces do %>
+        <li><%= piece %></li>
+    <% end %>
+    </ul>
+
+<% end %>
+</div>
