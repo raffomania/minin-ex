@@ -6,7 +6,7 @@ defmodule MininWeb.Live.Match do
   use MininWeb, :live_view
 
   def mount(%{"id" => id}, _session, socket) do
-    {:ok, match} = Minin.MatchRegistry.lookup(Minin.MatchRegistry, id)
+    {:ok, _match} = Minin.MatchRegistry.lookup(Minin.MatchRegistry, id)
     {:ok, assign(socket, :id, id)}
   end
 end
