@@ -9,7 +9,7 @@ defmodule Minin.MatchRegistry do
     GenServer.call(server, {:lookup, id})
   end
 
-  def create(server) do
+  def find(server) do
     GenServer.call(server, {:create})
   end
 

@@ -13,7 +13,7 @@ defmodule Minin.MatchRegistryTest do
   end
 
   test "removes match on crash", %{registry: registry} do
-    {id, match} = Minin.MatchRegistry.create(registry)
+    {id, match} = Minin.MatchRegistry.find(registry)
 
     # Stop the bucket with non-normal reason
     Agent.stop(match, :shutdown)
