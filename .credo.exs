@@ -165,7 +165,6 @@
           {Credo.Check.Readability.AliasAs, []},
           {Credo.Check.Readability.MultiAlias, []},
           {Credo.Check.Readability.SeparateAliasRequire, []},
-          {Credo.Check.Readability.SinglePipe, []},
           {Credo.Check.Readability.SingleFunctionToBlockPipe, []},
           {Credo.Check.Readability.StrictModuleLayout, []},
           {Credo.Check.Refactor.DoubleBooleanNegation, []},
@@ -195,7 +194,8 @@
           {Credo.Check.Design.DuplicatedCode, []},
           {Credo.Check.Readability.Specs, []},
           {Credo.Check.Refactor.ModuleDependencies, []},
-          {Credo.Check.Refactor.PipeChainStart, []}
+          {Credo.Check.Refactor.PipeChainStart, []},
+          {Credo.Check.Readability.SinglePipe, []}
 
           #
           # Custom checks can be created using `mix credo.gen.check`.

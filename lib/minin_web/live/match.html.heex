@@ -1,12 +1,26 @@
-<p>Welcome to match <%= @id %>!</p>
+<p>Welcome to match <%= @match.id %>!</p>
 
 <div class="stage">
-<%= for player <- @players do %>
-    <p>Player's selected pieces:</p>
+<%= for player <- @match.players do %>
+    <h2>Player <%= player.id %></h2>
+    <p>selected pieces:</p>
     <ul>
-    <%= for piece <- player.selected_pieces do %>
-        <li><%= piece %></li>
-    <% end %>
+        <%= for piece <- player.selected_pieces do %>
+            <li><%= piece %></li>
+        <% end %>
+    </ul>
+
+    <p>available pieces:</p>
+    <ul>
+        <%= for piece <- player.available_pieces do %>
+            <li>
+                <button phx-click="select_piece" 
+                    phx-value-player-id={player.id} 
+                    phx-value-piece={piece}>
+                    <%= piece %>
+                </button>
+            </li>
+        <% end %>
     </ul>
 
 <% end %>
