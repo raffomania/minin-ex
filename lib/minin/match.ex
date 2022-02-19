@@ -56,6 +56,7 @@ defmodule Minin.Match do
     Agent.get(pid, &Map.get(&1, :id))
   end
 
+  @spec players(atom | pid | {atom, any} | {:via, atom, any}) :: [Minin.MatchPlayer.t()]
   def players(pid) do
     Agent.get(pid, &Map.get(&1, :players))
   end
