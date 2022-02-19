@@ -9,21 +9,26 @@ defmodule Minin.MatchTest do
   end
 
   test "start with some players with pieces", %{pid: pid} do
-    players = Minin.Match.players(pid)
-    refute Enum.empty?(players)
+    %{status: {:configure, board, available}} = Minin.Match.get_match(pid)
+    refute Enum.empty?(available)
+    refute Enum.empty?(board)
 
-    Enum.each(players, fn player ->
-      refute Enum.empty?(player.available_pieces)
-      assert Enum.empty?(player.selected_pieces)
+    Enum.each(available, fn {_id, pieces} ->
+      refute Enum.empty?(pieces)
+    end)
+
+    Enum.each(board, fn {_id, pieces} ->
+      assert Enum.empty?(pieces)
     end)
   end
 
   test "can select a piece", %{pid: pid} do
-    [player | _rest] = Minin.Match.players(pid)
-    assert Enum.empty?(player.selected_pieces)
-    [piece | _rest] = player.available_pieces
-    Minin.Match.select_piece(pid, player.id, piece)
-    [updated_player | _rest] = Minin.Match.players(pid)
-    assert updated_player.selected_pieces == [piece]
+    %{status: {:configure, board, available}} = Minin.Match.get_match(pid)
+    {player_id, _player_board} = Enum.at(board, 0)
+    assert Enum.empty?(board[player_id])
+    [piece | _rest] = available[player_id]
+    Minin.Match.select_piece(pid, player_id, piece)
+    %{status: {:configure, new_board, new_available}} = Minin.Match.get_match(pid)
+    assert new_board[player_id] == [piece]
   end
 end

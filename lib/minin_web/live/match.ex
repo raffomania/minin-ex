@@ -8,7 +8,9 @@ defmodule MininWeb.Live.Match do
   @impl Phoenix.LiveView
   def mount(%{"id" => id}, _session, socket) do
     {:ok, pid} = Minin.MatchRegistry.lookup(Minin.MatchRegistry, id)
-    socket = assign(socket, :match, Minin.Match.get_match(pid))
+
+    socket = assign(socket, match: Minin.Match.get_match(pid), match_pid: pid)
+
     {:ok, socket}
   end
 
@@ -17,7 +19,7 @@ defmodule MininWeb.Live.Match do
     {:ok, player_id} = Ecto.UUID.cast(player_id)
     piece = String.to_existing_atom(piece)
 
-    {:ok, pid} = Minin.MatchRegistry.lookup(Minin.MatchRegistry, socket.assigns.match.id)
+    pid = socket.assigns.match_pid
     Minin.Match.select_piece(pid, player_id, piece)
 
     socket = assign(socket, :match, Minin.Match.get_match(pid))

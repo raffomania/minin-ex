@@ -1,5 +1,5 @@
 import Config
 
 config :minin, Minin.Repo,
-  username: "myuser"
+  username: "myuser",
   password: "mypassword"
