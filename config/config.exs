@@ -40,4 +40,8 @@ config :phoenix, :json_library, Jason
 import_config "#{config_env()}.exs"
 
 # Import environment-specific secrets
-import_config "#{config_env()}.secret.exs"
+secrets = "#{config_env()}.secret.exs"
+
+if File.exists?(secrets) do
+  import_config secrets
+end
