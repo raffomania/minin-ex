@@ -11,25 +11,30 @@ jobs:
       matrix:
         otp: ['24.2']
         elixir: ['1.13.0']
-    # services:
-      # postgres:
-      #   image: postgres
-      #   env:
-      #     POSTGRES_PASSWORD: postgres
+    services:
+      # configure postgres with the values specified in config/test.exs
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
-        # options: >-
-        #   --health-cmd pg_isready
-        #   --health-interval 10s
-        #   --health-timeout 5s
-        #   --health-retries 5
-        # ports:
-        #   - 5432:5432
-    # env:
-      # DATABASE_URL: postgres://postgres:postgres@localhost/songsonar-ci
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost/minin_test
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Write db credentials
+        run: |
+          echo 'import Config' > config/test.secret.exs
+          echo 'config :minin, Minin.Repo, username: "postgres", password: "postgres"' > config/test.secret.exs
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
