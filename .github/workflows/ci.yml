@@ -34,7 +34,7 @@ jobs:
       - name: Write db credentials
         run: |
           echo 'import Config' > config/test.secret.exs
-          echo 'config :minin, Minin.Repo, username: "postgres", password: "postgres"' > config/test.secret.exs
+          echo 'config :minin, Minin.Repo, username: "postgres", password: "postgres"' >> config/test.secret.exs
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
