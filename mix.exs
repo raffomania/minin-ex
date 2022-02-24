@@ -11,7 +11,8 @@ defmodule Minin.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      dialyzer: [plt_add_deps: :transitive]
+      dialyzer: [plt_add_deps: :transitive],
+      preferred_cli_env: [ci: :test]
     ]
   end
 
@@ -50,7 +51,7 @@ defmodule Minin.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 0.5.0", only: [:dev], runtime: false}
+      {:dialyxir, "~> 0.5.0", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -66,7 +67,8 @@ defmodule Minin.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["esbuild default --minify", "phx.digest"],
+      ci: ["test", "credo", "dialyzer", "format --check-formatted"]
     ]
   end
 end

@@ -28,7 +28,7 @@ defmodule Minin.MatchTest do
     assert Enum.empty?(board[player_id])
     [piece | _rest] = available[player_id]
     Minin.Match.select_piece(pid, player_id, piece)
-    %{status: {:configure, new_board, new_available}} = Minin.Match.get_match(pid)
+    %{status: {:configure, new_board, _new_available}} = Minin.Match.get_match(pid)
     assert new_board[player_id] == [piece]
   end
 end
