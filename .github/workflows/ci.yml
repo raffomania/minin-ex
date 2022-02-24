@@ -26,17 +26,18 @@ jobs:
         ports:
           - 5432:5432
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost/minin_test
+      DB_USER: postgres
+      DB_PASSWORD: postgres
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Write db credentials
-        run: |
-          echo 'import Config' > config/test.secret.exs
-          echo 'config :minin, Minin.Repo, username: "postgres", password: "postgres"' >> config/test.secret.exs
-      - name: show db config
-        run: cat config/test.secret.exs
+      # - name: Write db credentials
+      #   run: |
+      #     echo 'import Config' > config/test.secret.exs
+      #     echo 'config :minin, Minin.Repo, username: "postgres", password: "postgres"' >> config/test.secret.exs
+      # - name: show db config
+      #   run: cat config/test.secret.exs
       - uses: erlef/setup-beam@v1
         with:
           otp-version: ${{matrix.otp}}
