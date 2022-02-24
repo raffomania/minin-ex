@@ -1,39 +1,44 @@
 <p>Welcome to match <%= @match.id %>!</p>
 
 <div class="stage">
-<%= if {:configure, board, available} = @match.status do %>
-    <h2>available pieces</h2>
-    <div class="row">
-    <%= for {id, pieces} <- available do %>
-        <div class="column">
-            <ul>
-            <%= for piece <- pieces do %>
-                <li>
-                    <button phx-click="select_piece" 
-                        phx-value-player-id={id} 
-                        phx-value-piece={piece}>
-                        <%= piece %>
-                    </button>
-                </li>
-            <% end %>
-            </ul>
+<%= case @match.status do %>
+    <% {:configure, board, available} -> %>
+        <h2>available pieces</h2>
+        <div class="row">
+        <%= for {id, pieces} <- available do %>
+            <div class="column">
+                <ul>
+                <%= for piece <- pieces do %>
+                    <li>
+                        <button phx-click="select_piece" 
+                            phx-value-player-id={id} 
+                            phx-value-piece={piece}>
+                            <%= piece %>
+                        </button>
+                    </li>
+                <% end %>
+                </ul>
+            </div>
+        <% end %>
         </div>
-    <% end %>
-    </div>
 
-    <h2>selected pieces</h2>
-    <div class="row">
-    <%= for {id, pieces} <- board do %>
-        <div class="column">
-            <ul>
-            <%= for piece <- pieces do %>
-                <li><%= piece %></li>
-            <% end %>
-            </ul>
+        <h2>selected pieces</h2>
+        <div class="row">
+        <%= for {_id, pieces} <- board do %>
+            <div class="column">
+                <ul>
+                <%= for piece <- pieces do %>
+                    <li><%= piece %></li>
+                <% end %>
+                </ul>
+            </div>
+        <% end %>
         </div>
-    <% end %>
-    </div>
 
-    <button>Start mining!</button>
+        <button phx-click="start_run">
+            Start mining!
+        </button>
+    <% {:run, _board} -> %>
+        <p>Match is running!</p>
 <% end %>
 </div>

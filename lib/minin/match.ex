@@ -56,6 +56,18 @@ defmodule Minin.Match do
     %{match | status: {:configure, board, available}}
   end
 
+  @spec start_run(pid()) :: :ok
+  def start_run(pid) when is_pid(pid) do
+    Agent.update(pid, fn match ->
+      start_run(match)
+    end)
+  end
+
+  @spec start_run(t()) :: t()
+  def start_run(%Match{status: {:configure, board, _available}} = match) do
+    %{match | status: {:run, board}}
+  end
+
   def start_link(opts) do
     Agent.start_link(fn -> init_players(%Match{id: opts[:id]}) end, opts)
   end

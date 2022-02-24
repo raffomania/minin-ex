@@ -25,4 +25,14 @@ defmodule MininWeb.Live.Match do
     socket = assign(socket, :match, Minin.Match.get_match(pid))
     {:noreply, socket}
   end
+
+  @impl Phoenix.LiveView
+  def handle_event("start_run", %{}, socket) do
+    pid = socket.assigns.match_pid
+
+    Minin.Match.start_run(pid)
+
+    socket = assign(socket, :match, Minin.Match.get_match(pid))
+    {:noreply, socket}
+  end
 end
