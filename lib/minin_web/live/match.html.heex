@@ -2,9 +2,11 @@
 
 <div class="stage">
 <%= if {:configure, board, available} = @match.status do %>
+    <h2>available pieces</h2>
+    <div class="row">
     <%= for {id, pieces} <- available do %>
-        <h2>Player <%= id %>'s available pieces</h2>
-        <ul>
+        <div class="column">
+            <ul>
             <%= for piece <- pieces do %>
                 <li>
                     <button phx-click="select_piece" 
@@ -14,16 +16,24 @@
                     </button>
                 </li>
             <% end %>
-        </ul>
+            </ul>
+        </div>
     <% end %>
+    </div>
 
+    <h2>selected pieces</h2>
+    <div class="row">
     <%= for {id, pieces} <- board do %>
-        <h2>Player <%= id %>'s selected pieces</h2>
-        <ul>
+        <div class="column">
+            <ul>
             <%= for piece <- pieces do %>
                 <li><%= piece %></li>
             <% end %>
-        </ul>
+            </ul>
+        </div>
     <% end %>
+    </div>
+
+    <button>Start mining!</button>
 <% end %>
 </div>
