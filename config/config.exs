@@ -46,6 +46,6 @@ import_config "#{config_env()}.exs"
 # Import environment-specific secrets
 secrets = "#{config_env()}.secret.exs"
 
-if File.exists?(secrets) do
+if File.exists?("config/#{secrets}") do
   import_config secrets
 end
