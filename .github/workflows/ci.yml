@@ -40,6 +40,7 @@ jobs:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
       - run: mix deps.get
+      - run: mix ecto.create
       - run: mix test
       - run: mix credo
       - run: mix dialyzer
