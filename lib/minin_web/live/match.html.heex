@@ -38,7 +38,23 @@
         <button phx-click="start_run">
             Start mining!
         </button>
-    <% {:run, _board} -> %>
-        <p>Match is running!</p>
+    <% {:run, steps_by_player} -> %>
+        <p>Steps:</p>
+        <div class="row">
+        <%= for {_id, steps} <- steps_by_player do %>
+            <div class="column">
+            <ol>
+            <%= for {piece, results} <- steps do %>
+                <li>
+                    <%= piece %>:<br />
+                    <%= for {type, count} <- results do %>
+                        <%= count %> <%= type %>
+                    <% end %>
+                </li>
+            <% end %>
+            </ol>
+            </div>
+        <% end %>
+        </div>
 <% end %>
 </div>
