@@ -11,8 +11,7 @@ defmodule Minin.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      dialyzer: [plt_add_deps: :transitive],
-      preferred_cli_env: [ci: :test]
+      dialyzer: [plt_add_deps: :transitive]
     ]
   end
 
@@ -68,7 +67,7 @@ defmodule Minin.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"],
-      ci: ["test", "credo", "dialyzer", "format --check-formatted"]
+      ci: ["credo", "dialyzer", "format --check-formatted"]
     ]
   end
 end
